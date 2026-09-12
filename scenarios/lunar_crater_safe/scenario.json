@@ -1,0 +1,8 @@
+{
+  "scenario_name": "lunar_crater_safe",
+  "title": "Lunar Crater Safe Descent",
+  "mission_mode": "SAFETY",
+  "description": "A stable descent toward a flat lunar plateau.",
+  "gravity_mps2": 1.62,
+  "vehicle_radius_m": 2.5
+}

@@ -1,0 +1,8 @@
+{
+  "scenario_name": "emergency_recovery_zone",
+  "title": "Emergency Recovery Zone",
+  "mission_mode": "RECOVERY",
+  "description": "Facility-aware recovery over an arid operations area.",
+  "gravity_mps2": 9.81,
+  "vehicle_radius_m": 2.5
+}

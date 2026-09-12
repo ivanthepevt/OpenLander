@@ -1,0 +1,8 @@
+{
+  "scenario_name": "mars_base_retarget",
+  "title": "Mars Base Emergency Retarget",
+  "mission_mode": "RECOVERY",
+  "description": "Emergency descent near a Mars research base with lateral drift.",
+  "gravity_mps2": 3.71,
+  "vehicle_radius_m": 2.5
+}

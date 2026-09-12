@@ -1,0 +1,13 @@
+torch>=2.5,<3
+torchvision>=0.20,<1
+transformers>=4.46,<5
+ultralytics>=8.3,<9
+opencv-python>=4.10,<5
+numpy>=1.26,<3
+pandas>=2.2,<3
+Pillow>=10.4,<13
+gradio>=5.12,<7
+imageio>=2.36,<3
+accelerate>=1.1,<2
+safetensors>=0.4,<1
+
