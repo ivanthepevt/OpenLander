@@ -18,6 +18,7 @@ source .venv/bin/activate
 python -m pip install --upgrade pip
 pip install -r requirements.txt
 python generate_test_data.py
+python run_batch.py
 python app.py
 ```
 
@@ -27,14 +28,18 @@ The first raw analysis downloads the pretrained weights (several hundred MB in t
 
 ## Use
 
-Generate the included Mars, lunar, and Earth recovery scenarios with `python generate_test_data.py`. The generator reads the three supplied, unchanged images in `seed_photos/`, then creates ten smooth crop-and-zoom frames plus GIF and contact-sheet QA previews in `outputs/test_generation_preview/`. It fails clearly when a required seed is absent; there is no procedural fallback. The debug-only `crop_center_x_norm`, `crop_center_y_norm`, and `crop_scale` metadata describe this generation path and are never used by the landing decision engine.
+Run `python generate_test_data.py` to discover every non-hidden PNG, JPEG, or WebP image in `seed_photos/`. Each untouched seed becomes a normalized scenario with 150 frames, aspect-preserving output, deterministic smooth zoom/drift, filename-derived altitude and view telemetry, and a five-second H.264 raw preview in `outputs/test_generation_preview/`. SHA256 values are checked before and after generation. There is no procedural fallback or generated ground truth. The debug-only `crop_center_x_norm`, `crop_center_y_norm`, and `crop_scale` metadata describe the camera path and are never loaded into the landing decision engine.
+
+Run `python run_batch.py` for the sequential real-seed evaluation. It loads the three AI models once, reuses them across every generated scenario, exports both cached replay videos, and writes `batch_summary.csv`, `batch_summary.json`, `batch_report.md`, and `seed_integrity.json` under `outputs/evaluation/`. Use `--scenario <normalized_name>` for one scenario or `--force` to rerun completed report entries. A failure is recorded per scenario without stopping later scenarios.
 
 Start `python app.py`, then choose one of the two entry points:
 
-- **Analyze Raw Scenario** validates and copies the source, runs real inference on every frame, writes an immutable timestamped run under `runs/`, and opens it in Mission Control.
+- **Analyze Raw Scenario** validates and copies the source, runs real inference on every frame, writes a unique timestamped run under `runs/`, and opens it in Mission Control. Analysis artifacts are never overwritten; requested replay exports are added to that run.
 - **Open Processed Run** loads `run.json`, `result.json`, saved views, and compressed score maps immediately. It does not load AI models.
 
-Use Previous, Play/Pause, Next, the slider, and the speed control to navigate. Change among Final Decision, Raw Camera, Depth, AI Perception, Landing Score, Optical Flow, and Debug Dashboard. Click the main image to query the cached local score, terrain, clearance, reachability, hazard, and facility maps.
+Use Previous, Play/Pause, Next, the slider, and the metadata-timed 0.5×/1×/2× speed control to navigate. Change among Final Decision, Raw Camera, Depth, AI Perception, Landing Score, Optical Flow, and Debug Dashboard. Click the main image to query the cached local score, terrain, clearance, reachability, hazard, and facility maps.
+
+Choose Final Decision or Debug Dashboard under **Export View**, then click **Export Video**. Export reads saved frames only; it never reruns inference. When system `ffmpeg` is available it creates a 30 fps H.264 MP4 (`landing_replay.mp4` or `dashboard_replay.mp4`) in the processed-run folder. Otherwise it creates a GIF fallback with the matching stem.
 
 ## Raw scenario contract
 
@@ -49,7 +54,7 @@ scenario_name/
 
 ## Processed run contract
 
-Each new analysis creates a unique, immutable folder:
+Each new analysis creates a unique, self-contained folder:
 
 ```text
 runs/<scenario>_<timestamp>/
@@ -57,9 +62,11 @@ runs/<scenario>_<timestamp>/
 ├── result.json           # compact decisions, candidates, events, telemetry
 ├── summary.txt
 ├── landing.gif
+├── landing_replay.mp4    # optional cached-frame export
+├── dashboard_replay.mp4  # optional cached-frame export
 ├── raw/                  # complete copied scenario; no symlinks
 ├── annotated/ depth/ perception/ heatmap/ flow/ dashboard/
-└── maps/                 # compressed float16 arrays for point inspection
+└── maps/                 # compact float16 arrays for point inspection
 ```
 
 You can move or archive this folder and reopen it by path. The original scenario is not required.

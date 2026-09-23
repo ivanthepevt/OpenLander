@@ -6,6 +6,7 @@ import json
 import math
 import os
 import shutil
+import subprocess
 import time
 from datetime import datetime
 from pathlib import Path
@@ -23,6 +24,7 @@ ROOT = Path(__file__).resolve().parent
 VERSION = "1.0"
 VIEW_DIRS = {"Final Decision":"annotated", "Raw Camera":"raw/frames", "Depth":"depth", "AI Perception":"perception", "Landing Score":"heatmap", "Optical Flow":"flow", "Debug Dashboard":"dashboard"}
 SEMANTIC_PROMPTS = ["flat open ground","safe ground","rough terrain","rock","boulder","crater","building","vehicle","road","solar panel","habitat","landing pad"]
+DEBUG_METADATA = {"crop_center_x_norm","crop_center_y_norm","crop_scale"}
 
 
 def compute_device() -> tuple[str, str]:
@@ -259,7 +261,15 @@ def render_views(rgb, depth, sem, maps, motion, cands, selected, state, radius, 
     return {"annotated":final,"depth":depth_view,"perception":perception,"heatmap":heat,"flow":flow,"dashboard":dash}
 
 
-def analyze_scenario(folder: str | Path, progress: Callable[[str],None] | None=None) -> str:
+def analyze_scenario(
+    folder: str | Path,
+    progress: Callable[[str],None] | None=None,
+    *,
+    models=None,
+    device: str | None=None,
+    evaluation_set: str | None=None,
+) -> str:
+    """Analyze one scenario, optionally reusing already-loaded batch models."""
     source,scenario,metadata,paths,(h,w)=validate_scenario(folder)
     def note(x):
         if progress: progress(x)
@@ -270,7 +280,12 @@ def analyze_scenario(folder: str | Path, progress: Callable[[str],None] | None=N
     run_dir.mkdir(parents=True)
     shutil.copytree(source,run_dir/"raw")
     for d in ["annotated","depth","perception","heatmap","flow","dashboard","maps"]: (run_dir/d).mkdir()
-    device,device_label=compute_device(); started=time.perf_counter(); models=load_models(device,note)
+    detected_device,device_label=compute_device()
+    device=device or detected_device
+    device_label={"mps":"Apple MPS","cuda":"CUDA","cpu":"CPU"}.get(device,device)
+    owns_models=models is None
+    started=time.perf_counter()
+    if owns_models: models=load_models(device,note)
     records=[]; events=[]; prev_gray=None; prev_selected=None; stable=0; retargets=0; frames_for_gif=[]
     try:
         for i,(row,path) in enumerate(zip(metadata.to_dict("records"),paths)):
@@ -286,23 +301,37 @@ def analyze_scenario(folder: str | Path, progress: Callable[[str],None] | None=N
             views=render_views(rgb,depth,sem,maps,motion,cands,selected,state,radius,envelope,scenario)
             filename=f"{i:06d}.png"
             for d,img in views.items(): cv2.imwrite(str(run_dir/d/filename),img)
-            np.savez_compressed(run_dir/"maps"/f"{i:06d}.npz",**{k:v.astype(np.float16) for k,v in maps.items()})
+            # Quarter-scale arrays preserve local replay inspection while keeping
+            # dense 150-frame runs compact.
+            map_w=max(1,min(320,w)); map_h=max(1,round(h*map_w/w))
+            compact_maps={k:cv2.resize(v,(map_w,map_h),interpolation=cv2.INTER_AREA).astype(np.float16) for k,v in maps.items()}
+            np.savez_compressed(run_dir/"maps"/f"{i:06d}.npz",**compact_maps)
             control={"label":"Simulated control reference","path":[[w//2,h//2],[(2*(w//2)+selected['xy'][0])//3,(2*(h//2)+selected['xy'][1])//3],selected["xy"]]}
-            telemetry={k:(None if pd.isna(v) else v) for k,v in row.items() if k not in {"frame_id","filename","timestamp_s"}}
+            telemetry={k:(None if pd.isna(v) else v) for k,v in row.items() if k not in ({"frame_id","filename","timestamp_s"}|DEBUG_METADATA)}
             rec={"frame_id":int(row["frame_id"]),"filename":filename,"timestamp_s":float(row["timestamp_s"]),"state":state,"selected_candidate":selected["id"],"selected_xy":selected["xy"],"score":selected["total_score"],"footprint_radius_px":radius,"reachable_envelope":[round(float(x),2) for x in envelope],"drift":{k:v for k,v in motion.items() if k!="tracks"},"telemetry":telemetry,"detections":detections,"candidates":cands,"explanation":why,"control_reference":control,"analysis_time_ms":round((time.perf_counter()-tic)*1000,1)}
             records.append(rec); frames_for_gif.append(cv2.cvtColor(cv2.resize(views["annotated"],(640,640)),cv2.COLOR_BGR2RGB)); prev_gray=gray; prev_selected=selected
             note(f"Frame {i+1} / {len(paths)} — saved")
     finally:
-        del models; gc.collect()
+        if owns_models: del models
+        gc.collect()
+        if device=="mps":
+            try:
+                import torch
+                torch.mps.empty_cache()
+            except Exception:
+                pass
     elapsed=time.perf_counter()-started
     locked=next((r["timestamp_s"] for r in records if r["state"]=="TARGET_LOCKED"),None)
     result={"scenario":scenario,"events":events,"frames":records,"mission_summary":{"result":"SAFE LANDING TARGET IDENTIFIED","final_landing_zone":records[-1]["selected_candidate"],"final_safety_score":records[-1]["score"],"target_locked_at_s":locked,"retarget_events":retargets,"average_analysis_time_ms":round(sum(r["analysis_time_ms"] for r in records)/len(records),1),"total_analysis_time_s":round(elapsed,2),"final_drift":records[-1]["drift"]}}
-    run={"openlander_version":VERSION,"scenario_name":scenario.get("scenario_name",source.name),"title":scenario.get("title",source.name),"created_at":datetime.now().isoformat(timespec="seconds"),"device":device,"device_label":device_label,"frame_count":len(records),"image_width":w,"image_height":h,"models":models.get("names",{}) if False else {"depth":"depth-anything/Depth-Anything-V2-Small-hf","detection":"Ultralytics YOLO11n","segmentation":"CIDAS/clipseg-rd64-refined"},"analysis_time_s":round(elapsed,2)}
+    run={"openlander_version":VERSION,"scenario_name":scenario.get("scenario_name",source.name),"title":scenario.get("title",source.name),"created_at":datetime.now().isoformat(timespec="seconds"),"device":device,"device_label":device_label,"frame_count":len(records),"image_width":w,"image_height":h,"models":{"depth":"depth-anything/Depth-Anything-V2-Small-hf","detection":"Ultralytics YOLO11n","segmentation":"CIDAS/clipseg-rd64-refined"},"analysis_time_s":round(elapsed,2)}
+    if evaluation_set: run["evaluation_set"]=evaluation_set
     (run_dir/"run.json").write_text(json.dumps(run,indent=2,default=_json_default)+"\n")
     (run_dir/"result.json").write_text(json.dumps(result,indent=2,default=_json_default)+"\n")
     summary=result["mission_summary"]
     (run_dir/"summary.txt").write_text("OPENLANDER MISSION COMPLETE\n\n"+"\n".join(f"{k.replace('_',' ').title()}: {v}" for k,v in summary.items())+"\n")
-    imageio.mimsave(run_dir/"landing.gif",frames_for_gif,duration=.42,loop=0)
+    timestamps=[r["timestamp_s"] for r in records]
+    frame_duration=(timestamps[-1]-timestamps[0])/(len(timestamps)-1) if len(timestamps)>1 else 1/30
+    imageio.mimsave(run_dir/"landing.gif",frames_for_gif,duration=max(.02,frame_duration),loop=0)
     run_dir.rename(final_dir)
     note(f"Mission saved: {final_dir}")
     return str(final_dir)
@@ -317,10 +346,35 @@ def frame_view(run_dir: str | Path, frame_index: int, view: str) -> str:
 def inspect_point(run_dir: str | Path, frame_index: int, x: float, y: float) -> str:
     folder,run,result=validate_run(run_dir); frame=result["frames"][int(frame_index)]
     maps=np.load(folder/"maps"/f"{int(frame_index):06d}.npz"); h,w=maps["score"].shape
-    x=int(np.clip(x,0,w-1)); y=int(np.clip(y,0,h-1)); vals={k:float(maps[k][y,x]) for k in maps.files}
+    display_w=float(run.get("image_width",w)); display_h=float(run.get("image_height",h))
+    display_x,display_y=int(x),int(y)
+    x=int(np.clip(x/display_w*w,0,w-1)); y=int(np.clip(y/display_h*h,0,h-1)); vals={k:float(maps[k][y,x]) for k in maps.files}
     if vals["reachable"]<.25: reason="Outside the current reachable envelope."
     elif vals["hazard"]>.45: reason="A perceived hazard overlaps the landing footprint."
     elif vals["clearance"]<.5: reason="Insufficient object and terrain clearance."
     else: reason=f"Valid area, but {frame['selected_candidate']} has higher fused reachability and clearance."
     verdict="REJECTED" if vals["score"]<.45 or vals["reachable"]<.25 or vals["hazard"]>.45 else "SAFE BUT LOWER SCORE"
-    return f"### WHY NOT LAND HERE?\n\n**{verdict}** at ({x}, {y})\n\nTerrain `{vals['terrain']:.0%}` · Clearance `{vals['clearance']:.0%}` · Reachability `{vals['reachable']:.0%}` · Facility preference `{vals['facility']:.0%}`\n\nPrimary reason: {reason}"
+    return f"### WHY NOT LAND HERE?\n\n**{verdict}** at ({display_x}, {display_y})\n\nTerrain `{vals['terrain']:.0%}` · Clearance `{vals['clearance']:.0%}` · Reachability `{vals['reachable']:.0%}` · Facility preference `{vals['facility']:.0%}`\n\nPrimary reason: {reason}"
+
+
+def export_video(run_dir: str | Path, view: str="Final Decision", fps: int=30) -> str:
+    """Export a presentation replay from cached frames; never loads AI models."""
+    folder,_,result=validate_run(run_dir)
+    subdir={"Final Decision":"annotated","Debug Dashboard":"dashboard"}.get(view)
+    if not subdir: raise ValueError("Export view must be Final Decision or Debug Dashboard.")
+    source=folder/subdir
+    if not source.is_dir() or len(list(source.glob("*.png"))) < len(result["frames"]):
+        raise ValueError(f"Cached {view} frames are incomplete.")
+    stem="landing_replay" if view=="Final Decision" else "dashboard_replay"
+    ffmpeg=shutil.which("ffmpeg")
+    if ffmpeg:
+        output=folder/f"{stem}.mp4"
+        command=[ffmpeg,"-y","-loglevel","error","-framerate",str(fps),"-i",str(source/"%06d.png"),
+                 "-vf","pad=ceil(iw/2)*2:ceil(ih/2)*2","-c:v","libx264","-preset","medium","-crf","18",
+                 "-pix_fmt","yuv420p","-movflags","+faststart",str(output)]
+        completed=subprocess.run(command,capture_output=True,text=True)
+        if completed.returncode==0 and output.is_file(): return str(output)
+    output=folder/f"{stem}.gif"
+    images=(imageio.imread(source/f["filename"]) for f in result["frames"])
+    imageio.mimsave(output,images,duration=1/max(1,fps),loop=0)
+    return str(output)

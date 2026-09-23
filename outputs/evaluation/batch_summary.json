@@ -1,0 +1,477 @@
+{
+  "evaluation_set": "real_seed_batch_2026_09",
+  "generated_at": "2026-09-23T12:35:38",
+  "complete": true,
+  "total_scenarios": 11,
+  "successful_scenarios": 11,
+  "failed_scenarios": 0,
+  "total_processed_frames": 1650,
+  "compute_device": "Apple MPS",
+  "total_batch_processing_time_s": 1984.5,
+  "scenarios": [
+    {
+      "scenario_name": "11_fields_straight_500m",
+      "source_seed": "11_fields_straight_500m.png.png",
+      "mission_mode": "SAFETY",
+      "frame_count": 150,
+      "resolution": "1280x916",
+      "starting_altitude_m": 500.0,
+      "device": "Apple MPS",
+      "total_analysis_time_s": 162.14,
+      "average_analysis_ms_per_frame": 1080.4,
+      "final_state": "FINAL_APPROACH",
+      "final_selected_lz": "LZ-01",
+      "final_score": 0.594,
+      "retarget_count": 0,
+      "target_lock_timestamp_s": 0.1,
+      "max_visual_drift_px_s": 154.19,
+      "average_visual_drift_px_s": 88.87,
+      "detected_object_count_total": 6,
+      "run_folder": "/Users/ivan/Desktop/Design Festival/OpenLander/runs/11_fields_straight_500m_2026-09-23_120246_480",
+      "landing_video": "/Users/ivan/Desktop/Design Festival/OpenLander/runs/11_fields_straight_500m_2026-09-23_120246_480/landing_replay.mp4",
+      "dashboard_video": "/Users/ivan/Desktop/Design Festival/OpenLander/runs/11_fields_straight_500m_2026-09-23_120246_480/dashboard_replay.mp4",
+      "success": true,
+      "error": ""
+    },
+    {
+      "scenario_name": "12_mountain_side_500m",
+      "source_seed": "12_mountain_side_500m.png.png",
+      "mission_mode": "SAFETY",
+      "frame_count": 150,
+      "resolution": "1280x916",
+      "starting_altitude_m": 500.0,
+      "device": "Apple MPS",
+      "total_analysis_time_s": 161.59,
+      "average_analysis_ms_per_frame": 1076.7,
+      "final_state": "FINAL_APPROACH",
+      "final_selected_lz": "LZ-02",
+      "final_score": 0.626,
+      "retarget_count": 1,
+      "target_lock_timestamp_s": 0.1,
+      "max_visual_drift_px_s": 84.13,
+      "average_visual_drift_px_s": 49.95,
+      "detected_object_count_total": 197,
+      "run_folder": "/Users/ivan/Desktop/Design Festival/OpenLander/runs/12_mountain_side_500m_2026-09-23_120542_802",
+      "landing_video": "/Users/ivan/Desktop/Design Festival/OpenLander/runs/12_mountain_side_500m_2026-09-23_120542_802/landing_replay.mp4",
+      "dashboard_video": "/Users/ivan/Desktop/Design Festival/OpenLander/runs/12_mountain_side_500m_2026-09-23_120542_802/dashboard_replay.mp4",
+      "success": true,
+      "error": ""
+    },
+    {
+      "scenario_name": "12_mountain_straight_500m",
+      "source_seed": "12_mountain_straight_500m.png.png",
+      "mission_mode": "SAFETY",
+      "frame_count": 150,
+      "resolution": "1280x917",
+      "starting_altitude_m": 500.0,
+      "device": "Apple MPS",
+      "total_analysis_time_s": 165.86,
+      "average_analysis_ms_per_frame": 1105.2,
+      "final_state": "FINAL_APPROACH",
+      "final_selected_lz": "LZ-02",
+      "final_score": 0.671,
+      "retarget_count": 3,
+      "target_lock_timestamp_s": 0.1,
+      "max_visual_drift_px_s": 131.31,
+      "average_visual_drift_px_s": 75.39,
+      "detected_object_count_total": 0,
+      "run_folder": "/Users/ivan/Desktop/Design Festival/OpenLander/runs/12_mountain_straight_500m_2026-09-23_120839_688",
+      "landing_video": "/Users/ivan/Desktop/Design Festival/OpenLander/runs/12_mountain_straight_500m_2026-09-23_120839_688/landing_replay.mp4",
+      "dashboard_video": "/Users/ivan/Desktop/Design Festival/OpenLander/runs/12_mountain_straight_500m_2026-09-23_120839_688/dashboard_replay.mp4",
+      "success": true,
+      "error": ""
+    },
+    {
+      "scenario_name": "13_moon_straight_500m",
+      "source_seed": "13_moon_straight_500m.png.png",
+      "mission_mode": "SAFETY",
+      "frame_count": 150,
+      "resolution": "1280x916",
+      "starting_altitude_m": 500.0,
+      "device": "Apple MPS",
+      "total_analysis_time_s": 165.28,
+      "average_analysis_ms_per_frame": 1101.3,
+      "final_state": "FINAL_APPROACH",
+      "final_selected_lz": "LZ-01",
+      "final_score": 0.378,
+      "retarget_count": 0,
+      "target_lock_timestamp_s": 0.1,
+      "max_visual_drift_px_s": 151.14,
+      "average_visual_drift_px_s": 87.15,
+      "detected_object_count_total": 5,
+      "run_folder": "/Users/ivan/Desktop/Design Festival/OpenLander/runs/13_moon_straight_500m_2026-09-23_121139_895",
+      "landing_video": "/Users/ivan/Desktop/Design Festival/OpenLander/runs/13_moon_straight_500m_2026-09-23_121139_895/landing_replay.mp4",
+      "dashboard_video": "/Users/ivan/Desktop/Design Festival/OpenLander/runs/13_moon_straight_500m_2026-09-23_121139_895/dashboard_replay.mp4",
+      "success": true,
+      "error": ""
+    },
+    {
+      "scenario_name": "14_mars_straight_800m",
+      "source_seed": "14_mars_straight_800m.png.png",
+      "mission_mode": "SAFETY",
+      "frame_count": 150,
+      "resolution": "1280x916",
+      "starting_altitude_m": 800.0,
+      "device": "Apple MPS",
+      "total_analysis_time_s": 156.12,
+      "average_analysis_ms_per_frame": 1040.3,
+      "final_state": "FINAL_APPROACH",
+      "final_selected_lz": "LZ-02",
+      "final_score": 0.519,
+      "retarget_count": 1,
+      "target_lock_timestamp_s": 0.1,
+      "max_visual_drift_px_s": 149.11,
+      "average_visual_drift_px_s": 85.43,
+      "detected_object_count_total": 158,
+      "run_folder": "/Users/ivan/Desktop/Design Festival/OpenLander/runs/14_mars_straight_800m_2026-09-23_121436_181",
+      "landing_video": "/Users/ivan/Desktop/Design Festival/OpenLander/runs/14_mars_straight_800m_2026-09-23_121436_181/landing_replay.mp4",
+      "dashboard_video": "/Users/ivan/Desktop/Design Festival/OpenLander/runs/14_mars_straight_800m_2026-09-23_121436_181/dashboard_replay.mp4",
+      "success": true,
+      "error": ""
+    },
+    {
+      "scenario_name": "19_night_side_600m",
+      "source_seed": "19_night_side_600m.png.png",
+      "mission_mode": "SAFETY",
+      "frame_count": 150,
+      "resolution": "1280x916",
+      "starting_altitude_m": 600.0,
+      "device": "Apple MPS",
+      "total_analysis_time_s": 155.62,
+      "average_analysis_ms_per_frame": 1036.9,
+      "final_state": "FINAL_APPROACH",
+      "final_selected_lz": "LZ-01",
+      "final_score": 0.666,
+      "retarget_count": 16,
+      "target_lock_timestamp_s": 0.1,
+      "max_visual_drift_px_s": 130.49,
+      "average_visual_drift_px_s": 75.38,
+      "detected_object_count_total": 21,
+      "run_folder": "/Users/ivan/Desktop/Design Festival/OpenLander/runs/19_night_side_600m_2026-09-23_121725_760",
+      "landing_video": "/Users/ivan/Desktop/Design Festival/OpenLander/runs/19_night_side_600m_2026-09-23_121725_760/landing_replay.mp4",
+      "dashboard_video": "/Users/ivan/Desktop/Design Festival/OpenLander/runs/19_night_side_600m_2026-09-23_121725_760/dashboard_replay.mp4",
+      "success": true,
+      "error": ""
+    },
+    {
+      "scenario_name": "1_parking_side_300m",
+      "source_seed": "1_parking_side_300m.png.png",
+      "mission_mode": "RECOVERY",
+      "frame_count": 150,
+      "resolution": "1280x960",
+      "starting_altitude_m": 300.0,
+      "device": "Apple MPS",
+      "total_analysis_time_s": 160.2,
+      "average_analysis_ms_per_frame": 1067.5,
+      "final_state": "FINAL_APPROACH",
+      "final_selected_lz": "LZ-02",
+      "final_score": 0.702,
+      "retarget_count": 3,
+      "target_lock_timestamp_s": 0.1,
+      "max_visual_drift_px_s": 110.12,
+      "average_visual_drift_px_s": 63.15,
+      "detected_object_count_total": 10247,
+      "run_folder": "/Users/ivan/Desktop/Design Festival/OpenLander/runs/1_parking_side_300m_2026-09-23_122014_698",
+      "landing_video": "/Users/ivan/Desktop/Design Festival/OpenLander/runs/1_parking_side_300m_2026-09-23_122014_698/landing_replay.mp4",
+      "dashboard_video": "/Users/ivan/Desktop/Design Festival/OpenLander/runs/1_parking_side_300m_2026-09-23_122014_698/dashboard_replay.mp4",
+      "success": true,
+      "error": ""
+    },
+    {
+      "scenario_name": "1_parking_straight_400m",
+      "source_seed": "1_parking_straight_400m.png.png",
+      "mission_mode": "RECOVERY",
+      "frame_count": 150,
+      "resolution": "1280x1304",
+      "starting_altitude_m": 400.0,
+      "device": "Apple MPS",
+      "total_analysis_time_s": 182.33,
+      "average_analysis_ms_per_frame": 1214.8,
+      "final_state": "FINAL_APPROACH",
+      "final_selected_lz": "LZ-01",
+      "final_score": 0.798,
+      "retarget_count": 0,
+      "target_lock_timestamp_s": 0.1,
+      "max_visual_drift_px_s": 179.7,
+      "average_visual_drift_px_s": 103.59,
+      "detected_object_count_total": 382,
+      "run_folder": "/Users/ivan/Desktop/Design Festival/OpenLander/runs/1_parking_straight_400m_2026-09-23_122310_460",
+      "landing_video": "/Users/ivan/Desktop/Design Festival/OpenLander/runs/1_parking_straight_400m_2026-09-23_122310_460/landing_replay.mp4",
+      "dashboard_video": "/Users/ivan/Desktop/Design Festival/OpenLander/runs/1_parking_straight_400m_2026-09-23_122310_460/dashboard_replay.mp4",
+      "success": true,
+      "error": ""
+    },
+    {
+      "scenario_name": "2_warehouse_straight_350m",
+      "source_seed": "2_warehouse_straight_350m.png.png",
+      "mission_mode": "RECOVERY",
+      "frame_count": 150,
+      "resolution": "1280x916",
+      "starting_altitude_m": 350.0,
+      "device": "Apple MPS",
+      "total_analysis_time_s": 166.18,
+      "average_analysis_ms_per_frame": 1107.2,
+      "final_state": "FINAL_APPROACH",
+      "final_selected_lz": "LZ-01",
+      "final_score": 0.703,
+      "retarget_count": 0,
+      "target_lock_timestamp_s": 0.1,
+      "max_visual_drift_px_s": 135.13,
+      "average_visual_drift_px_s": 77.4,
+      "detected_object_count_total": 76,
+      "run_folder": "/Users/ivan/Desktop/Design Festival/OpenLander/runs/2_warehouse_straight_350m_2026-09-23_122629_938",
+      "landing_video": "/Users/ivan/Desktop/Design Festival/OpenLander/runs/2_warehouse_straight_350m_2026-09-23_122629_938/landing_replay.mp4",
+      "dashboard_video": "/Users/ivan/Desktop/Design Festival/OpenLander/runs/2_warehouse_straight_350m_2026-09-23_122629_938/dashboard_replay.mp4",
+      "success": true,
+      "error": ""
+    },
+    {
+      "scenario_name": "4_suburban_straight_400m",
+      "source_seed": "4_suburban_straight_400m.png.png",
+      "mission_mode": "RECOVERY",
+      "frame_count": 150,
+      "resolution": "1280x914",
+      "starting_altitude_m": 400.0,
+      "device": "Apple MPS",
+      "total_analysis_time_s": 175.46,
+      "average_analysis_ms_per_frame": 1169.2,
+      "final_state": "FINAL_APPROACH",
+      "final_selected_lz": "LZ-02",
+      "final_score": 0.639,
+      "retarget_count": 7,
+      "target_lock_timestamp_s": 0.1,
+      "max_visual_drift_px_s": 115.37,
+      "average_visual_drift_px_s": 66.85,
+      "detected_object_count_total": 170,
+      "run_folder": "/Users/ivan/Desktop/Design Festival/OpenLander/runs/4_suburban_straight_400m_2026-09-23_122931_543",
+      "landing_video": "/Users/ivan/Desktop/Design Festival/OpenLander/runs/4_suburban_straight_400m_2026-09-23_122931_543/landing_replay.mp4",
+      "dashboard_video": "/Users/ivan/Desktop/Design Festival/OpenLander/runs/4_suburban_straight_400m_2026-09-23_122931_543/dashboard_replay.mp4",
+      "success": true,
+      "error": ""
+    },
+    {
+      "scenario_name": "8_dockyard_side_800m",
+      "source_seed": "8_dockyard_side_800m.png.png",
+      "mission_mode": "RECOVERY",
+      "frame_count": 150,
+      "resolution": "1280x909",
+      "starting_altitude_m": 800.0,
+      "device": "Apple MPS",
+      "total_analysis_time_s": 166.94,
+      "average_analysis_ms_per_frame": 1112.4,
+      "final_state": "FINAL_APPROACH",
+      "final_selected_lz": "LZ-02",
+      "final_score": 0.637,
+      "retarget_count": 3,
+      "target_lock_timestamp_s": 0.1,
+      "max_visual_drift_px_s": 89.42,
+      "average_visual_drift_px_s": 52.74,
+      "detected_object_count_total": 372,
+      "run_folder": "/Users/ivan/Desktop/Design Festival/OpenLander/runs/8_dockyard_side_800m_2026-09-23_123241_110",
+      "landing_video": "/Users/ivan/Desktop/Design Festival/OpenLander/runs/8_dockyard_side_800m_2026-09-23_123241_110/landing_replay.mp4",
+      "dashboard_video": "/Users/ivan/Desktop/Design Festival/OpenLander/runs/8_dockyard_side_800m_2026-09-23_123241_110/dashboard_replay.mp4",
+      "success": true,
+      "error": ""
+    }
+  ],
+  "video_validation": {
+    "11_fields_straight_500m": {
+      "landing_replay": {
+        "codec": "h264",
+        "width": 1280,
+        "height": 916,
+        "fps": 30.0,
+        "frame_count": 150,
+        "duration_s": 5.0
+      },
+      "dashboard_replay": {
+        "codec": "h264",
+        "width": 1280,
+        "height": 916,
+        "fps": 30.0,
+        "frame_count": 150,
+        "duration_s": 5.0
+      }
+    },
+    "12_mountain_side_500m": {
+      "landing_replay": {
+        "codec": "h264",
+        "width": 1280,
+        "height": 916,
+        "fps": 30.0,
+        "frame_count": 150,
+        "duration_s": 5.0
+      },
+      "dashboard_replay": {
+        "codec": "h264",
+        "width": 1280,
+        "height": 916,
+        "fps": 30.0,
+        "frame_count": 150,
+        "duration_s": 5.0
+      }
+    },
+    "12_mountain_straight_500m": {
+      "landing_replay": {
+        "codec": "h264",
+        "width": 1280,
+        "height": 918,
+        "fps": 30.0,
+        "frame_count": 150,
+        "duration_s": 5.0
+      },
+      "dashboard_replay": {
+        "codec": "h264",
+        "width": 1280,
+        "height": 918,
+        "fps": 30.0,
+        "frame_count": 150,
+        "duration_s": 5.0
+      }
+    },
+    "13_moon_straight_500m": {
+      "landing_replay": {
+        "codec": "h264",
+        "width": 1280,
+        "height": 916,
+        "fps": 30.0,
+        "frame_count": 150,
+        "duration_s": 5.0
+      },
+      "dashboard_replay": {
+        "codec": "h264",
+        "width": 1280,
+        "height": 916,
+        "fps": 30.0,
+        "frame_count": 150,
+        "duration_s": 5.0
+      }
+    },
+    "14_mars_straight_800m": {
+      "landing_replay": {
+        "codec": "h264",
+        "width": 1280,
+        "height": 916,
+        "fps": 30.0,
+        "frame_count": 150,
+        "duration_s": 5.0
+      },
+      "dashboard_replay": {
+        "codec": "h264",
+        "width": 1280,
+        "height": 916,
+        "fps": 30.0,
+        "frame_count": 150,
+        "duration_s": 5.0
+      }
+    },
+    "19_night_side_600m": {
+      "landing_replay": {
+        "codec": "h264",
+        "width": 1280,
+        "height": 916,
+        "fps": 30.0,
+        "frame_count": 150,
+        "duration_s": 5.0
+      },
+      "dashboard_replay": {
+        "codec": "h264",
+        "width": 1280,
+        "height": 916,
+        "fps": 30.0,
+        "frame_count": 150,
+        "duration_s": 5.0
+      }
+    },
+    "1_parking_side_300m": {
+      "landing_replay": {
+        "codec": "h264",
+        "width": 1280,
+        "height": 960,
+        "fps": 30.0,
+        "frame_count": 150,
+        "duration_s": 5.0
+      },
+      "dashboard_replay": {
+        "codec": "h264",
+        "width": 1280,
+        "height": 960,
+        "fps": 30.0,
+        "frame_count": 150,
+        "duration_s": 5.0
+      }
+    },
+    "1_parking_straight_400m": {
+      "landing_replay": {
+        "codec": "h264",
+        "width": 1280,
+        "height": 1304,
+        "fps": 30.0,
+        "frame_count": 150,
+        "duration_s": 5.0
+      },
+      "dashboard_replay": {
+        "codec": "h264",
+        "width": 1280,
+        "height": 1304,
+        "fps": 30.0,
+        "frame_count": 150,
+        "duration_s": 5.0
+      }
+    },
+    "2_warehouse_straight_350m": {
+      "landing_replay": {
+        "codec": "h264",
+        "width": 1280,
+        "height": 916,
+        "fps": 30.0,
+        "frame_count": 150,
+        "duration_s": 5.0
+      },
+      "dashboard_replay": {
+        "codec": "h264",
+        "width": 1280,
+        "height": 916,
+        "fps": 30.0,
+        "frame_count": 150,
+        "duration_s": 5.0
+      }
+    },
+    "4_suburban_straight_400m": {
+      "landing_replay": {
+        "codec": "h264",
+        "width": 1280,
+        "height": 914,
+        "fps": 30.0,
+        "frame_count": 150,
+        "duration_s": 5.0
+      },
+      "dashboard_replay": {
+        "codec": "h264",
+        "width": 1280,
+        "height": 914,
+        "fps": 30.0,
+        "frame_count": 150,
+        "duration_s": 5.0
+      }
+    },
+    "8_dockyard_side_800m": {
+      "landing_replay": {
+        "codec": "h264",
+        "width": 1280,
+        "height": 910,
+        "fps": 30.0,
+        "frame_count": 150,
+        "duration_s": 5.0
+      },
+      "dashboard_replay": {
+        "codec": "h264",
+        "width": 1280,
+        "height": 910,
+        "fps": 30.0,
+        "frame_count": 150,
+        "duration_s": 5.0
+      }
+    }
+  }
+}
